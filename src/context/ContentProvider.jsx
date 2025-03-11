@@ -1,18 +1,17 @@
-import AppContent from "./AppContext";
+import React, { createContext, useState } from "react";
 
-const ContentProvider = ({ children }) => {
-  const userinfo = {
-    name: "abc",
-    age: 22,
+export const ThemeContext = createContext();
+
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
-  const info2 = {
-    name: "info2",
-  };
   return (
-    <AppContent.Provider value={{ userinfo, info2 }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
-    </AppContent.Provider>
+    </ThemeContext.Provider>
   );
 };
-export default ContentProvider;

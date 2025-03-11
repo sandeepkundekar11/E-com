@@ -1,16 +1,23 @@
-import { useContext } from "react";
-import AppContent from "./context/AppContext";
+import React, { lazy, Suspense } from "react";
 
-function App() {
-  const { userinfo, info2 } = useContext(AppContent);
+import Navbar from "./Components/Navbar";
+import SkeletonLoader from "./Components/SkeletonLoader";
+import { ThemeProvider } from "./context/ContentProvider";
+import { withTheme } from "./context/WithTheme";
+
+
+const LazyProductList = lazy(() => import("./Components/ProductList"));
+const ThemedProductList = withTheme(LazyProductList);
+
+const App = () => {
   return (
-    <>
-      <h1 className="text-center text-gray-950">
-        hello {info2?.name}
-        {userinfo?.name}
-      </h1>
-    </>
+    <ThemeProvider>
+      <Navbar />
+      <Suspense fallback={<SkeletonLoader/>}>
+        <ThemedProductList />
+      </Suspense>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
